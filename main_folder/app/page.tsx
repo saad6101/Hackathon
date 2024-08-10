@@ -1,11 +1,10 @@
-import Key from "@/components/keydown"
 import { LoginForm } from "@/components/logInForm"
 export default function Home()
 {
   return(
   <div>
-    {/* <LoginForm/> */}
-    <Key/>
+    {/* IDK why shadcn UI is not working */}
+    <LoginForm/>
   </div>
   )
 };
