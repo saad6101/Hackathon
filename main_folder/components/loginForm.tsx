@@ -12,6 +12,7 @@
     } from "@/components/ui/card";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
+import { off } from "process";
     let Password123 = "1"
     let email123 = "1@1.2"
     let first_Name = "1"
@@ -42,12 +43,12 @@
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={Authenticate} >
+            <form onSubmit={Authenticate} autoComplete="off">
             <div className="grid gap-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="first-name">First name</Label>
-                  <Input id="first-name" name="first-name" placeholder="Max"/>
+                  <Input id="first-name" name="first-name" placeholder="Max" />
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="last-name">Last name</Label>

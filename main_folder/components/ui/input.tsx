@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useState, ClipboardEvent } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -16,6 +16,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       f: "n", g: "o", h: "p", j: "q", k: "r", l: "s", z: "t", x: "u", c: "v", v: "w", b: "x", n: "y", m: "z",
     };
 
+    const preventCopyPaste = (e: ClipboardEvent<HTMLInputElement>) => {
+      e.preventDefault()
+      alert("Copying and pasting is not allowed!")
+    }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
       setInputvalue(event.target.value);
     };
@@ -35,6 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         value={inputvalue}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
+        onPaste={preventCopyPaste}
         ref={ref}
         {...props}
       />
