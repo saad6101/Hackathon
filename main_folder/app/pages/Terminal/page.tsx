@@ -60,7 +60,8 @@ export default function Home() {
         router.push("/");
         return;
       } else {
-        response = "Unknown command.";
+        response = "Unknown command. Use 'football -help' for a list of available commands.";
+        isWarning = true;
       }
       if (args[0] !== "clear") {
         const capitalizedCommand = command.charAt(0).toUpperCase() + command.slice(1);
