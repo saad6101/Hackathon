@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import MaxWidthWrapper from "@/components/maxWidthWrapper";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   const [command, setCommand] = useState("");
@@ -76,21 +77,23 @@ export default function Home() {
       setCommand(""); 
     }, 500);
   };
+  
 
   return (
     <section className="flex min-h-screen flex-col items-center justify-between p-24 bg-slate-100">
       <MaxWidthWrapper>
         <div className="w-full p-4 bg-gray-900 text-gray-100 rounded-lg shadow-lg h-30 relative">
-          <input
+          <Input
             type="text"
             placeholder="Enter command"
-            value={command}
-            onChange={(e) => setCommand(e.target.value)}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !loading) {
                 handleCommand();
               }
             }}
+            // onChange={(e) => {setCommand(e.target.value); console.log("parent change") }}
+            onChange={(value: string) => setCommand(value)}
+            value={command}
             className="w-full text-2xl font-mono p-4 mb-4 bg-gray-800 text-gray-100 border-none rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             disabled={loading}
           />

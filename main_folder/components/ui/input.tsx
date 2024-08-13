@@ -1,14 +1,13 @@
 "use client";
 import * as React from "react";
 import { ChangeEvent, KeyboardEvent, useState, ClipboardEvent } from "react";
-
-import { cn } from "@/lib/utils";
+import { cn, mergeEventHandlers } from "@/lib/utils";
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+  extends React.InputHTMLAttributes<HTMLInputElement> {onChange?: (value: string) => void;}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, onKeyDown, onChange, value, ...props }, ref) => {
     const [inputvalue, setInputvalue] = useState<string>("");
     //keymap
     const keyMap: { [key: string]: string } = {
@@ -21,14 +20,20 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       alert("Copying and pasting is not allowed!")
     }
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-      setInputvalue(event.target.value);
+      console.log("child")
+      onChange?.(event.target.value);
     };
     const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
       if (keyMap.hasOwnProperty(event.key)) {
         event.preventDefault();
-        setInputvalue((preValue) => preValue + keyMap[event.key]);
+        const newValue = (value as string) + keyMap[event.key];
+        onChange?.(newValue);
       }
     };
+    const mergedOnKeyDown = mergeEventHandlers<KeyboardEvent<HTMLInputElement>>(
+      onKeyDown, handleKeyDown
+    );
+
     return (
       <input
         type={type}
@@ -36,9 +41,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
           className
         )}
-        value={inputvalue}
+        value={value}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        onKeyDown={mergedOnKeyDown}
         onPaste={preventCopyPaste}
         ref={ref}
         {...props}
