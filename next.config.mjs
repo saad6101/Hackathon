@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    basePath: "/Hackathon",
+    basePath: "/",
     output: "export",
     reactStrictMode: true,
 };
