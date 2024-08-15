@@ -1,10 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaTimes } from "react-icons/fa";
 import stats from "./stats";
+import PenaltyKickGame from "@/components/PenaltyKickGameCaptcha";
 
 export default function Page() {
+  const [won, setWon] = useState<boolean>(true);
+  // const [game1, setGame1] = useState<boolean>(false)
   const players = stats;
 
   const [currentPlayerIndex, setCurrentPlayerIndex] = useState(0);
@@ -18,6 +21,11 @@ export default function Page() {
   };
 
   const handleNextPlayer = () => {
+    // console.log(players.length)
+    // setWon(false);
+    // if (!won){setCurrentPlayerIndex((prevIndex) =>
+    //   prevIndex === players.length - 1 ? 0 : prevIndex + 1,
+    // );}
     setCurrentPlayerIndex((prevIndex) =>
       prevIndex === players.length - 1 ? 0 : prevIndex + 1,
     );
@@ -25,11 +33,13 @@ export default function Page() {
   };
 
   const handlePlayerClick = () => {
+    setWon(false);
     setShowStats(true); // Show stats when player is clicked
   };
 
   const handleCloseModal = () => {
     setShowStats(false); // Close the modal
+    // setWon(false)
   };
 
   const currentPlayer = players[currentPlayerIndex];
@@ -69,7 +79,8 @@ export default function Page() {
           &gt;
         </button>
       </div>
-      {showStats && currentPlayer.stats && (
+      {!won && <PenaltyKickGame setWon={setWon} />}
+      {won && showStats && currentPlayer.stats && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-10 rounded-lg shadow-lg max-w-2xl w-full h-5/6 overflow-y-auto relative scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-500 scrollbar-track-rounded">
             <button
