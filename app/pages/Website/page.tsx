@@ -21,11 +21,6 @@ export default function Page() {
   };
 
   const handleNextPlayer = () => {
-    // console.log(players.length)
-    // setWon(false);
-    // if (!won){setCurrentPlayerIndex((prevIndex) =>
-    //   prevIndex === players.length - 1 ? 0 : prevIndex + 1,
-    // );}
     setCurrentPlayerIndex((prevIndex) =>
       prevIndex === players.length - 1 ? 0 : prevIndex + 1,
     );
@@ -38,8 +33,7 @@ export default function Page() {
   };
 
   const handleCloseModal = () => {
-    setShowStats(false); // Close the modal
-    // setWon(false)
+    setShowStats(false);
   };
 
   const currentPlayer = players[currentPlayerIndex];
