@@ -1,5 +1,5 @@
 "use client";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,38 +11,17 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription, AlertTitle } from "./ui/alert";
-import { AlertCircle } from "lucide-react";
-import { VscRefresh } from "react-icons/vsc";
 
-let Password123 = "1";
-let email123 = "1@1.2";
-let first_Name = "1";
-let last_Name = "1";
+let Password123 = "qwertyuipASDFGHJKLzxcvbnmWASDdoctorMESSIpele10";
+let email123 = "PeleISTheGoat10BallanDorIsBellingham@football.org.germany.google.com";
+let first_Name = "Pele";
+let last_Name = "Messi";
+
 export function LoginForm() {
-  const [captchaText, setCaptchaText] = useState("");
-  const [userInput, setUserInput] = useState("");
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-
-  const generateCaptcha = () => {
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
-    let newCaptcha = "";
-    for (let i = 0; i < 6; i++) {
-      newCaptcha += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    setCaptchaText(newCaptcha);
-  };
-
-  useEffect(() => {
-    generateCaptcha();
-  }, []);
-
   const router = useRouter();
+
   async function Authenticate(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    setIsCorrect(userInput === captchaText);
-    userInput !== captchaText ? generateCaptcha() : setUserInput("");
 
     const formData = new FormData(event.currentTarget);
     const firstName = formData.get("first-name");
@@ -50,16 +29,18 @@ export function LoginForm() {
     const email = formData.get("email");
     const password = formData.get("password");
     let data = { email, firstName, password, lastName };
+    console.log(data);
+
     if (
       email123 == email &&
       first_Name == firstName &&
       last_Name == lastName &&
-      Password123 == password &&
-      userInput == captchaText
+      Password123 == password
     ) {
       router.push("/pages/Terminal");
     }
   }
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -92,43 +73,6 @@ export function LoginForm() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" type="password" name="password" />
             </div>
-
-            <div className="flex space-x-3">
-              <Label htmlFor="captchaText">CAPTCHA</Label>
-              <button type="button" onClick={generateCaptcha}>
-                <VscRefresh />
-              </button>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="grid gap-2">
-                <div
-                  id="captchaText"
-                  className="text-2xl font-bold tracking-widest bg-gray-100 p-3 rounded-md select-none"
-                >
-                  {captchaText}
-                </div>
-              </div>
-              <div className="grid gap-2 content-center">
-                <Input
-                  id="captchaInput"
-                  value={userInput}
-                  customOnChange={(value: string) => setUserInput(value)}
-                  placeholder="Enter CAPTCHA"
-                />
-              </div>
-            </div>
-
-            {isCorrect !== null && (
-              <Alert variant={isCorrect ? "default" : "destructive"}>
-                <AlertCircle className="h-4 w-4" />
-                <AlertTitle>{isCorrect ? "Success!" : "Error!"}</AlertTitle>
-                <AlertDescription>
-                  {isCorrect
-                    ? "CAPTCHA verified successfully."
-                    : "Incorrect CAPTCHA. Please try again."}
-                </AlertDescription>
-              </Alert>
-            )}
             <Button type="submit" className="w-full">
               Log In
             </Button>
